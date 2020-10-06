@@ -9,6 +9,12 @@ import { createStore, applyMiddleware } from "redux";
 import rootReducer from "./redux/reducers";
 import thunk from "redux-thunk";
 
+//components
+import LandingScreen from "./components/auth/Landing";
+import RegisterScreen from "./components/auth/Register";
+import MainScreen from "./components/Main";
+import AddScreen from "./components/main/Add";
+
 const store = createStore(rootReducer, applyMiddleware(thunk));
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -28,14 +34,10 @@ if (firebase.apps.length === 0) {
   firebase.initializeApp(firebaseConfig);
 }
 
-//components
-import LandingScreen from "./components/auth/Landing";
-import RegisterScreen from "./components/auth/Register";
-import MainScreen from "./components/Main";
-
 const Stack = createStackNavigator();
 
 export class App extends Component {
+  _isMounted = false;
   constructor(props) {
     super();
     this.state = {
@@ -44,21 +46,26 @@ export class App extends Component {
   }
 
   componentDidMount() {
+    this._isMounted = true;
     firebase.auth().onAuthStateChanged((user) => {
-      if (!user) {
-        this.setState({
-          loggedIn: false,
-          loaded: true,
-        });
-      } else {
-        this.setState({
-          loggedIn: true,
-          loaded: true,
-        });
+      if (this._isMounted) {
+        if (!user) {
+          this.setState({
+            loggedIn: false,
+            loaded: true,
+          });
+        } else {
+          this.setState({
+            loggedIn: true,
+            loaded: true,
+          });
+        }
       }
     });
   }
-
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
   render() {
     const { loggedIn, loaded } = this.state;
     if (!loaded) {
@@ -71,7 +78,7 @@ export class App extends Component {
     if (!loggedIn) {
       return (
         <NavigationContainer>
-          <Stack.Navigator initialRouteName="LandingScreen">
+          <Stack.Navigator initialRouteName="Landing">
             <Stack.Screen
               name="Landing"
               component={LandingScreen}
@@ -84,7 +91,16 @@ export class App extends Component {
     }
     return (
       <Provider store={store}>
-        <MainScreen />
+        <NavigationContainer>
+          <Stack.Navigator initialRouteName="Main">
+            <Stack.Screen
+              name="Main"
+              component={MainScreen}
+              option={{ headerShown: false }}
+            />
+            <Stack.Screen name="Add" component={AddScreen} />
+          </Stack.Navigator>
+        </NavigationContainer>
       </Provider>
     );
   }
