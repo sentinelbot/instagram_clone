@@ -1,10 +1,10 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 
-export default function Home() {
+export default function Add() {
   return (
     <View>
-      <Text>Home Screens</Text>
+      <Text>Add Screen</Text>
     </View>
   );
 }

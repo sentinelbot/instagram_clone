@@ -1,10 +1,10 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 
-export default function TweetDetails() {
+export default function Feed() {
   return (
     <View>
-      <Text>Tweet Details</Text>
+      <Text>Feed Screen</Text>
     </View>
   );
 }
