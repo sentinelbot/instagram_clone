@@ -3,11 +3,14 @@ import { createMaterialBottomTabNavigator } from "@react-navigation/material-bot
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import { FontAwesome } from "@expo/vector-icons";
 
 //components
 import { fetchUser } from "../redux/actions/index";
 import FeedScreen from "./main/Feed";
 import ProfileScreen from "./main/Profile";
+import SearchScreen from "./main/Search";
+import FavoriteScreen from "./main/Favorite";
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -33,6 +36,15 @@ export class Main extends Component {
           }}
         />
         <Tab.Screen
+          name="Search"
+          component={SearchScreen}
+          options={{
+            tabBarIcon: ({ color, size }) => (
+              <FontAwesome name="search" size={26} color={color} />
+            ),
+          }}
+        />
+        <Tab.Screen
           name="AddContainer"
           component={EmptyScreen}
           listeners={({ navigation }) => ({
@@ -44,6 +56,15 @@ export class Main extends Component {
           options={{
             tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons name="plus-box" color={color} size={26} />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="Favorite"
+          component={FavoriteScreen}
+          options={{
+            tabBarIcon: ({ color, size }) => (
+              <FontAwesome name="heart-o" size={24} color={color} />
             ),
           }}
         />
