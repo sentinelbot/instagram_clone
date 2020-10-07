@@ -1,21 +1,14 @@
 import React from "react";
-import { Button, StyleSheet, View } from "react-native";
+import { View, Button } from "react-native";
 
-export default function LandingScreen({ navigation }) {
+export default function Landing({ navigation }) {
   return (
-    <View style={styles.container}>
+    <View style={{ flex: 1, justifyContent: "center" }}>
       <Button
-        title="register"
+        title="Register"
         onPress={() => navigation.navigate("Register")}
       />
       <Button title="Login" onPress={() => navigation.navigate("Login")} />
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-  },
-});
